@@ -31,7 +31,7 @@ public class Vehicle extends DataCompatibility {
 
     @Override
     public String getRawData() {
-        return new String(this.type + " | " + this.id + " | " + this.employeeId + " | " + this.description + " | " + this.plate + " | " + this.brand + " | " + this.model);
+        return new String(this.type + ":" + this.id + ":" + this.employeeId + ":" + this.description + ":" + this.plate + ":" + this.brand + ":" + this.model);
     }
 
     public String getId() {

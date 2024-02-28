@@ -28,7 +28,7 @@ public class Employee extends DataCompatibility {
 
     @Override
     public String getRawData() {
-        return new String(this.type + " | " + this.id + " | " + this.name + " | " + this.address + " | " + this.wage + " | " + this.birthDate);
+        return new String(this.type + ":" + this.id + ":" + this.name + ":" + this.address + ":" + this.wage + ":" + this.birthDate);
     }
 
     public String getId() {
