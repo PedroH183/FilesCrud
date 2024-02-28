@@ -1,16 +1,14 @@
 package Service;
 
-import Domain.Product;
-
 import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.Vector;
 
 
-public class DBManager <T extends DataCompatibility> implements DBInterface {
+public class DBManager implements DBInterface {
   /**
    * Classe que representa a interface do banco de dados,
    * por meio desta classe será possível acessar os recursos salvos no banco de dado.
@@ -25,7 +23,7 @@ public class DBManager <T extends DataCompatibility> implements DBInterface {
   private static Path fileInstance;
   private final String URL_PATH = "./Database/";
   private final String FILE_NAME = "DATABASE_DATA.txt";
-  private final ArrayList<T> DATA_ALL = new ArrayList<T>();
+  private final Vector<DataCompatibility> DATA_ALL = new Vector<DataCompatibility>(); 
 
   private DBManager() throws IOException{
 
@@ -48,8 +46,11 @@ public class DBManager <T extends DataCompatibility> implements DBInterface {
     // Alimentando o arrayList que conterá todos os dados salvos.
     List<String> linhas = Files.readAllLines(file);
 
-    for (String linha : linhas) {
-      this.DATA_ALL.add( (T) new Product(linha) );
+  for (String linha : linhas) {
+    
+    // TODO
+    // switch case com os type cases e os construtores em cada caso
+    //  this.DATA_ALL.add( new Product(linha) );
     }
   }
 
@@ -80,12 +81,26 @@ public class DBManager <T extends DataCompatibility> implements DBInterface {
   }
 
   @Override
-  public List<T> getAll() throws IOException {
+  public List getAll() throws IOException {
     return this.DATA_ALL;
+  }
+
+  public void viewAll() throws IOException {
+    List<DataCompatibility> allData = this.getAll();
+
+    allData.forEach((e) -> System.out.println(e.getRawData()));
   }
 
   @Override
   public Boolean viewData(String id) throws IOException {
+      Vector lista = (Vector) this.getAll();
+
+      for(int i = 0; i< lista.size(); i++) {
+        //if(lista.get(i).get) {
+
+        //}
+      }
+
       return true;
   }
 
