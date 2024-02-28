@@ -4,8 +4,12 @@ import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
+import Domain.Employee;
+import Domain.Vehicle;
 
 
 public class DBManager implements DBInterface {
@@ -47,12 +51,27 @@ public class DBManager implements DBInterface {
     List<String> linhas = Files.readAllLines(file);
 
   for (String linha : linhas) {
-    
-    // TODO
-    // switch case com os type cases e os construtores em cada caso
-    //  this.DATA_ALL.add( new Product(linha) );
+    String[] fields1 = linha.split(":");
+    ArrayList<String> fields = new ArrayList<>();
+
+    for (int i = 0; i < fields1.length; i++) {
+      fields.add(fields1[i]);
+    }
+
+    switch (fields.get(0)) {
+      case "Employee":
+        this.DATA_ALL.add(new Employee(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5)));
+        break;
+
+      case "Vehicle":
+        this.DATA_ALL.add(new Vehicle(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5), fields.get(6)));
+        break;
+
+      default:
+        break;
     }
   }
+}
 
   private String getPathFile(){
     return this.URL_PATH + this.FILE_NAME;
@@ -93,15 +112,16 @@ public class DBManager implements DBInterface {
 
   @Override
   public Boolean viewData(String id) throws IOException {
-      Vector lista = (Vector) this.getAll();
+      Vector<DataCompatibility> lista = (Vector) this.getAll();
 
       for(int i = 0; i< lista.size(); i++) {
-        //if(lista.get(i).get) {
-
-        //}
+        if(lista.get(i).getId().equals(id)) {
+          System.out.println(lista.get(i).getRawData());
+          return true;
+        }
       }
 
-      return true;
+      return false;
   }
 
   @Override
