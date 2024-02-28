@@ -1,8 +1,8 @@
 import Service.DBManager;
-import Domain.Product;
 import Service.DataCompatibility;
 
 import java.util.List;
+import java.util.Vector;
 import java.io.IOException;
 
 
@@ -10,15 +10,15 @@ public class WorkWithFiles {
 
  public static void main(String[] args) throws IOException{
   DBManager cursor = DBManager.getInstance();
-  Product product = new Product("Carro de Controle");
+  //Product product = new Product("Carro de Controle");
 
-//  cursor.insertData( product );
-//  cursor.viewData("");
+ //cursor.insertData( product );
 
-  List<Product> list_product = cursor.getAll();
+  //List<Product> list_product = cursor.getAll();
 
-  for( Product prod : list_product ){
-    prod.soutData();
-  }
+  //for( Product prod : list_product ){
+  //  prod.soutData();
+  //}
+  cursor.viewAll();
  }
 }
