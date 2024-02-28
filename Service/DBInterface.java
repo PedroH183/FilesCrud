@@ -1,6 +1,7 @@
-package Domain;
+package Service;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface DBInterface {
   /**
@@ -11,8 +12,9 @@ public interface DBInterface {
    */
 
   <T extends DataCompatibility> Boolean insertData(T DataInstance) throws IOException;
+  <T extends DataCompatibility> List<T> getAll() throws IOException;
 
-  Boolean viewData(String id);
+  Boolean viewData(String id) throws IOException;
   Boolean updateData(String id);
   Boolean deleteData(String id);
 }
