@@ -1,13 +1,16 @@
-package Domain;
+package Service;
 
-import java.io.FileReader;
+import Domain.Product;
+
 import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 
-public class DBManager implements DBInterface {
+public class DBManager <T extends DataCompatibility> implements DBInterface {
   /**
    * Classe que representa a interface do banco de dados,
    * por meio desta classe será possível acessar os recursos salvos no banco de dado.
@@ -22,6 +25,7 @@ public class DBManager implements DBInterface {
   private static Path fileInstance;
   private final String URL_PATH = "./Database/";
   private final String FILE_NAME = "DATABASE_DATA.txt";
+  private final ArrayList<T> DATA_ALL = new ArrayList<T>();
 
   private DBManager() throws IOException{
 
@@ -40,6 +44,13 @@ public class DBManager implements DBInterface {
       System.out.println("Creating File");
     }
     fileInstance = file;
+
+    // Alimentando o arrayList que conterá todos os dados salvos.
+    List<String> linhas = Files.readAllLines(file);
+
+    for (String linha : linhas) {
+      this.DATA_ALL.add( (T) new Product(linha) );
+    }
   }
 
   private String getPathFile(){
@@ -58,7 +69,7 @@ public class DBManager implements DBInterface {
   }
 
   @Override
-  public <T extends DataCompatibility> Boolean insertData(T DataInstance) throws IOException {
+  public <TY extends DataCompatibility> Boolean insertData(TY DataInstance) throws IOException {
      Path pathManager = this.getFileInstance();
      String rawDataInstance = DataInstance.getRawData();
 
@@ -69,9 +80,13 @@ public class DBManager implements DBInterface {
   }
 
   @Override
-  public Boolean viewData(String id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'viewData'");
+  public List<T> getAll() throws IOException {
+    return this.DATA_ALL;
+  }
+
+  @Override
+  public Boolean viewData(String id) throws IOException {
+      return true;
   }
 
   @Override
