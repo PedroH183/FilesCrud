@@ -1,24 +1,19 @@
 import Service.DBManager;
-import Service.DataCompatibility;
 
-import java.util.List;
-import java.util.Vector;
 import java.io.IOException;
+
+import Domain.Employee;
 
 
 public class WorkWithFiles {
 
  public static void main(String[] args) throws IOException{
   DBManager cursor = DBManager.getInstance();
-  //Product product = new Product("Carro de Controle");
+  Employee employee = new Employee("1", "Pedro Leandro", "Av. 13 de Maio", "R$1500.00", "03/05/2003");
 
- //cursor.insertData( product );
+ cursor.insertData(employee);
 
-  //List<Product> list_product = cursor.getAll();
-
-  //for( Product prod : list_product ){
-  //  prod.soutData();
-  //}
-  cursor.viewAll();
+  //cursor.viewAll();
+  cursor.viewData("1");
  }
 }
