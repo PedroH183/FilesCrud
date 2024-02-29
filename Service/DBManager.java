@@ -104,6 +104,16 @@ public class DBManager implements DBInterface {
     return this.DATA_ALL;
   }
 
+  public DataCompatibility getOne(String id) throws IOException {
+    List<DataCompatibility> allData = this.getAll();
+    for (DataCompatibility item: allData) {
+     if(item.getId().equals(id)) {
+      return item;
+     }
+    }
+    return null;
+  }
+
   public void viewAll() throws IOException {
     List<DataCompatibility> allData = this.getAll();
 
@@ -132,7 +142,20 @@ public class DBManager implements DBInterface {
 
   @Override
   public Boolean deleteData(String id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'deleteData'");
+    List<DataCompatibility> allData = new Vector<>();
+    try {
+      allData = this.getAll();
+    }
+    catch(IOException e) {
+      e.printStackTrace();
+    }
+    
+    for (int i = 0; i < allData.size(); i++) {
+     if(allData.get(i).getId().equals(id)) {
+      this.DATA_ALL.remove(i);
+      return true;
+     } 
+    }
+    return false;
   }
 }
