@@ -30,10 +30,9 @@ public class DBManager implements DBInterface {
   private final Vector<DataCompatibility> DATA_ALL = new Vector<DataCompatibility>(); 
 
   private DBManager() throws IOException{
-
     Path directory = Path.of(URL_PATH);
 
-    if( !Files.exists(directory) ){
+    if(!Files.exists(directory)) {
       Files.createDirectories(directory);
       System.out.println("Creating Directory");
     }
@@ -41,7 +40,7 @@ public class DBManager implements DBInterface {
     String uriConnectToFile = this.getPathFile();
     Path file = Path.of(uriConnectToFile);
 
-    if( !Files.exists(file) ){
+    if(!Files.exists(file)) {
       Files.createFile(file);
       System.out.println("Creating File");
     }
@@ -157,5 +156,34 @@ public class DBManager implements DBInterface {
      } 
     }
     return false;
+  }
+
+  public void updateField(String key, String value) {
+
+  }
+
+  public void showOptions() {
+    System.out.println("---------- OPTIONS ----------");
+    System.out.println("1 - Employee");
+    System.out.println("2 - Vehicle");
+    System.out.println("3 - Exit");
+  }
+
+  public void showEmployeeOptions() {
+    System.out.println("1 - Create Employee");
+    System.out.println("2 - Read All Employees");
+    System.out.println("3 - Read One Employee");
+    System.out.println("4 - Edit Employee");
+    System.out.println("5 - Delete Employee");
+    System.out.println("6 - Go back");
+  }
+
+  public void showVehicleOptions() {
+    System.out.println("1 - Create Vehicle");
+    System.out.println("2 - Read All Vehicles");
+    System.out.println("3 - Read One Vehicle");
+    System.out.println("4 - Edit Vehicle");
+    System.out.println("5 - Delete Vehicle");
+    System.out.println("6 - Go back");
   }
 }
