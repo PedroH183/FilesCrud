@@ -1,21 +1,20 @@
 package DBManager;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
-import Service.DataCompatibility;
 
 public interface DBInterface {
-  /**
-   * Interface com os métodos que o banco de dados deverá conter.
-   * 
-   * Esses métodos são essenciais para que o banco de dados da cadeira funcione 
-   * de forma parecida com aos banco reais.
-   */
 
-  <T extends DataCompatibility> Boolean insertData(T DataInstance) throws IOException;
-  <T extends DataCompatibility> List<T> getAll() throws IOException;
+    void viewEmployee(String s);
+    void viewVehicle(String s);
+    void deleteData(String s);
 
-  Boolean updateData(String id);
-  Boolean deleteData(String id);
+    List<Service.DataCompatibility> getAll() throws IOException;
+    Boolean updateData(java.lang.String s, HashMap<String,String> hashMap);
+    void updateEmployee(Domain.Employee employee, HashMap<String,String> hashMap);
+    void updateVehicle(Domain.Vehicle vehicle, HashMap<String,String> hashMap);
+
+    <T extends Service.DataCompatibility> void insertData(T t) throws IOException;
 }
