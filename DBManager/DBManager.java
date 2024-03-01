@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -63,14 +64,12 @@ public class DBManager implements DBInterface {
   }
 
   @Override
-  public <TY extends DataCompatibility> Boolean insertData(TY DataInstance) throws IOException {
+  public <TY extends DataCompatibility> void insertData(TY DataInstance) throws IOException {
     Path pathManager = this.getFileInstance();
     String rawDataInstance = DataInstance.getRawData();
 
     this.DATA_ALL.add(DataInstance);
     Files.writeString(pathManager, (rawDataInstance + "\n"), StandardOpenOption.APPEND);
-
-    return true;
   }
 
   @Override
@@ -163,17 +162,12 @@ public class DBManager implements DBInterface {
     System.out.println("model:" + vehicle.getModel());
   }
 
-  @Override
-  public Boolean updateData(String id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'updateData'");
-  }
 
   @Override
-  public Boolean deleteData(String id) {
+  public void deleteData(String id) {
     List<DataCompatibility> allData = new Vector<>();
     allData = this.getAll();
-    
+
     for (int i = 0; i < allData.size(); i++) {
      if(allData.get(i).getId().equals(id)) {
       this.DATA_ALL.remove(i);
@@ -181,37 +175,74 @@ public class DBManager implements DBInterface {
     }
 
     FileManager.recreateDatabase(this.getPathFile(), this.getAll());
-    return false;
   }
 
-  public void updateField(String key, String value) {
+  @Override
+  public Boolean updateData(String id, HashMap<String, String> datamap) {
 
+    DataCompatibility employee = this.getOneEmployee(id);
+    DataCompatibility vehicle = this.getOneVehicle(id);
+
+    if( employee != null ){
+      this.updateEmployee( (Employee) employee, datamap);
+    }
+
+    if( vehicle != null ){
+      this.updateVehicle( (Vehicle) vehicle, datamap);
+    }
+
+    if( employee == null && vehicle == null ){
+      return false;
+    }
+
+    return true;
   }
 
-  public void showOptions() {
-    System.out.println("---------- OPTIONS ----------");
-    System.out.println("1 - Employee");
-    System.out.println("2 - Vehicle");
-    System.out.println("3 - Exit");
+  @Override
+  public void updateEmployee(Employee employee, HashMap<String, String> hashMap) {
+    hashMap.forEach( (key, value) -> {
+      if( value.isBlank() || value.isEmpty() || value.equals("\n") ){
+        return;
+      }
+      if( key.equals("name")  ){
+        employee.setName(value);
+        return;
+      }
+      if( key.equals("address") ){
+        employee.setAddress(value);
+        return;
+      }
+      if( key.equals("wage") ){
+        employee.setWage(value);
+        return;
+      }
+      if( key.equals("birthDate") ){
+        employee.setBirthDate(value);
+      }
+    });
   }
 
-  public void showEmployeeOptions() {
-    System.out.println("---------- EMPLOYEES OPTIONS ----------");
-    System.out.println("1 - Create Employee");
-    System.out.println("2 - Read All Employees");
-    System.out.println("3 - Search Employee");
-    System.out.println("4 - Edit Employee");
-    System.out.println("5 - Delete Employee");
-    System.out.println("6 - Go back");
-  }
-
-  public void showVehicleOptions() {
-    System.out.println("---------- VEHICLES OPTIONS ----------");
-    System.out.println("1 - Create Vehicle");
-    System.out.println("2 - Read All Vehicles");
-    System.out.println("3 - Search Vehicle");
-    System.out.println("4 - Edit Vehicle");
-    System.out.println("5 - Delete Vehicle");
-    System.out.println("6 - Go back");
+  @Override
+  public void updateVehicle(Vehicle vehicle, HashMap<String, String> hashMap) {
+    hashMap.forEach( (key, value) -> {
+      if( value.isBlank() || value.isEmpty() || value.equals("\n") ){
+        return;
+      }
+      if( key.equals("description")  ){
+        vehicle.setDescription(value);
+        return;
+      }
+      if( key.equals("plate") ){
+        vehicle.setPlate(value);
+        return;
+      }
+      if( key.equals("brand") ){
+        vehicle.setBrand(value);
+        return;
+      }
+      if( key.equals("model") ){
+        vehicle.setModel(value);
+      }
+    });
   }
 }
