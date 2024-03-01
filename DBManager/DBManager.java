@@ -1,4 +1,4 @@
-package Service;
+package DBManager;
 
 import java.nio.file.Path;
 import java.io.IOException;
@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.xml.crypto.Data;
+
 import Domain.Employee;
 import Domain.Vehicle;
+import Service.DataCompatibility;
 
 
 public class DBManager implements DBInterface {
@@ -24,52 +27,27 @@ public class DBManager implements DBInterface {
    */
 
   private static DBManager instance;
-  private static Path fileInstance;
   private final String URL_PATH = "./Database/";
   private final String FILE_NAME = "DATABASE_DATA.txt";
   private final Vector<DataCompatibility> DATA_ALL = new Vector<DataCompatibility>(); 
 
   private DBManager() throws IOException{
-    Path directory = Path.of(URL_PATH);
-
-    if(!Files.exists(directory)) {
-      Files.createDirectories(directory);
-      System.out.println("Creating Directory");
-    }
-
-    String uriConnectToFile = this.getPathFile();
-    Path file = Path.of(uriConnectToFile);
-
-    if(!Files.exists(file)) {
-      Files.createFile(file);
-      System.out.println("Creating File");
-    }
-    fileInstance = file;
-
-    // Alimentando o arrayList que conterá todos os dados salvos.
+    Path file = FileManager.getDatabase(URL_PATH, FILE_NAME);
     List<String> linhas = Files.readAllLines(file);
 
-  for (String linha : linhas) {
-    String[] fields1 = linha.split(":");
-    ArrayList<String> fields = new ArrayList<>();
+    for (String linha : linhas) {
+      String[] fields = linha.split(":");
 
-    for (int i = 0; i < fields1.length; i++) {
-      fields.add(fields1[i]);
+      switch (fields[0]) {
+        case "Employee":
+          this.DATA_ALL.add(new Employee(fields[1], fields[2], fields[3], fields[4], fields[5]));
+          break;
+
+        case "Vehicle":
+          this.DATA_ALL.add(new Vehicle(fields[1], fields[2], fields[3], fields[4], fields[5], fields[6]));
+          break;
+      }
     }
-
-    switch (fields.get(0)) {
-      case "Employee":
-        this.DATA_ALL.add(new Employee(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5)));
-        break;
-
-      case "Vehicle":
-        this.DATA_ALL.add(new Vehicle(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5), fields.get(6)));
-        break;
-
-      default:
-        break;
-    }
-  }
 }
 
   private String getPathFile(){
@@ -77,7 +55,7 @@ public class DBManager implements DBInterface {
   }
 
   private Path getFileInstance(){
-    return fileInstance;
+    return Path.of(this.getPathFile());
   }
 
   public static DBManager getInstance() throws IOException{
@@ -89,60 +67,98 @@ public class DBManager implements DBInterface {
 
   @Override
   public <TY extends DataCompatibility> Boolean insertData(TY DataInstance) throws IOException {
-     Path pathManager = this.getFileInstance();
-     String rawDataInstance = DataInstance.getRawData();
+    Path pathManager = this.getFileInstance();
+    String rawDataInstance = DataInstance.getRawData();
 
-     // inserting data...
-     Files.writeString(pathManager, (rawDataInstance + "\n"), StandardOpenOption.APPEND);
+    this.DATA_ALL.add(DataInstance);
+    Files.writeString(pathManager, (rawDataInstance + "\n"), StandardOpenOption.APPEND);
 
     return true;
   }
 
   @Override
-  public List getAll() throws IOException {
+  public List<DataCompatibility> getAll() {
     return this.DATA_ALL;
   }
 
-  public DataCompatibility getOne(String id) throws IOException {
-    List<DataCompatibility> allData = this.getAll();
-    for (DataCompatibility item: allData) {
-     if(item.getId().equals(id)) {
-      return item;
-     }
+  public List<DataCompatibility> getEmployeeList() {
+    List<DataCompatibility> employeeList = new Vector<>();
+
+    for (int index = 0; index < this.DATA_ALL.size(); index++) {
+      if(this.DATA_ALL.get(index).getType().equals("Employee")) {
+        employeeList.add(this.DATA_ALL.get(index));
+      }
     }
+
+    return employeeList;
+  }
+
+  public List<DataCompatibility> getVehicleList() {
+    List<DataCompatibility> vehicleList = new Vector<>();
+
+    for (int index = 0; index < this.DATA_ALL.size(); index++) {
+      if(this.DATA_ALL.get(index).getType().equals("Vehicle")) {
+        vehicleList.add(this.DATA_ALL.get(index));
+      }
+    }
+
+    return vehicleList;
+  }
+
+  public DataCompatibility getOneEmployee(String id) {
+    List<DataCompatibility> employeeList = this.getEmployeeList();
+
+    for (int i = 0; i < employeeList.size(); i++) {
+      if(employeeList.get(i).getId().equals(id)) {
+        return employeeList.get(i);
+      }
+    }
+
     return null;
   }
 
+  public DataCompatibility getOneVehicle(String id) {
+    List<DataCompatibility> vehicleList = this.getVehicleList();
+
+    for (int i = 0; i < vehicleList.size(); i++) {
+      if(vehicleList.get(i).getId().equals(id)) {
+        return vehicleList.get(i);
+      }
+    }
+
+    return null;
+  }
+  
   public void viewAll(String type) throws IOException {
     //Recebe o tipo, veiculo ou funcionario
     //percorre linha por linha o arquivo e verifica se a primeira palavra corresponde ao tipo escolhido
     //se sim, guarda a linha em um array
     //no final retorna um array com todas as linhas deste tipo 
 
-    List<String> linhas = Files.readAllLines(file);
+    // List<String> linhas = Files.readAllLines(file);
 
-    for (String linha : linhas) {
-      String[] fields1 = linha.split(":");
-      ArrayList<String> fields = new ArrayList<>();
+    // for (String linha : linhas) {
+    //   String[] fields1 = linha.split(":");
+    //   ArrayList<String> fields = new ArrayList<>();
 
-      for (int i = 0; i < fields1.length; i++) {
-        fields.add(fields1[i]);
-      }
--
+    //   for (int i = 0; i < fields1.length; i++) {
+    //     fields.add(fields1[i]);
+    //   }
+
     
 
-    switch (fields.get(0)) {
-      case "Employee":
-        this.DATA_ALL.add(new Employee(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5)));
-        break;
+    // switch (fields.get(0)) {
+    //   case "Employee":
+    //     this.DATA_ALL.add(new Employee(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5)));
+    //     break;
 
-      case "Vehicle":
-        this.DATA_ALL.add(new Vehicle(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5), fields.get(6)));
-        break;
+    //   case "Vehicle":
+    //     this.DATA_ALL.add(new Vehicle(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5), fields.get(6)));
+    //     break;
 
-      default:
-        break;
-    }
+    //   default:
+    //     break;
+    // }
 
     List<DataCompatibility> allData = this.getAll();
 
@@ -151,7 +167,10 @@ public class DBManager implements DBInterface {
 
   @Override
   public Boolean viewData(String id) throws IOException {
-      Vector<DataCompatibility> lista = (Vector) this.getAll();
+      // TODO
+      // Usar getOneVehicle e getOneEmployee e quebrar esse metodo em dois tambem
+      // Considerar deletar esse metodo dependendo da logica final
+      List<DataCompatibility> lista = this.getAll();
 
       for(int i = 0; i< lista.size(); i++) {
         if(lista.get(i).getId().equals(id)) {
@@ -172,19 +191,15 @@ public class DBManager implements DBInterface {
   @Override
   public Boolean deleteData(String id) {
     List<DataCompatibility> allData = new Vector<>();
-    try {
-      allData = this.getAll();
-    }
-    catch(IOException e) {
-      e.printStackTrace();
-    }
+    allData = this.getAll();
     
     for (int i = 0; i < allData.size(); i++) {
      if(allData.get(i).getId().equals(id)) {
       this.DATA_ALL.remove(i);
-      return true;
      } 
     }
+
+    FileManager.recreateDatabase(this.getPathFile(), this.getAll());
     return false;
   }
 

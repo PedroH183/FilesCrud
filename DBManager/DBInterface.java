@@ -1,7 +1,9 @@
-package Service;
+package DBManager;
 
 import java.io.IOException;
 import java.util.List;
+
+import Service.DataCompatibility;
 
 public interface DBInterface {
   /**
