@@ -70,4 +70,8 @@ public class Employee extends DataCompatibility {
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
+
+    public String getType() {
+        return this.type;
+    }
 }
