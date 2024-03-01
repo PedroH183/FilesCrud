@@ -1,8 +1,7 @@
-import Service.DBManager;
-
 import java.io.IOException;
 import java.util.Scanner;
 
+import DBManager.DBManager;
 import Domain.Employee;
 import Domain.Vehicle;
 
@@ -12,138 +11,150 @@ public class WorkWithFiles {
     DBManager cursor = DBManager.getInstance();
     String option;
 
-    while(true) {
-      Scanner s = new Scanner(System.in);
-      cursor.showOptions();
-      System.out.print("\nChoose an option: ");
-      option = s.nextLine();
-      System.out.print("\n");
+    Employee employee = new Employee("1", "Letício", "rua Tancredo Neves", "R$15.00", "13/09/1923");
+    Employee employee2 = new Employee("3", "Brazuca", "rua Rogério Skylab", "R$15000.00", "13/09/1900");
+    Vehicle vehicle = new Vehicle("2", "1", "feio", "asd-1234", "gurgel", "supermini");
 
-      switch(option) {
-        case "1":
-          cursor.showEmployeeOptions();
-          System.out.print("\nChoose an option: ");
-          option = s.nextLine();
-          System.out.print("\n");
+    cursor.insertData(employee);
+    cursor.insertData(employee2);
+    cursor.insertData(vehicle);
+    cursor.viewAll("");
 
-          String idEmployee;
+    cursor.deleteData("1");
+    System.out.println();
+    cursor.viewAll("");
+    //while(true) {
+      //Scanner s = new Scanner(System.in);
+      //cursor.showOptions();
+      //System.out.print("\nChoose an option: ");
+      //option = s.nextLine();
+      //System.out.print("\n");
 
-          switch (option) {
-            case "1":
-              String id, name, address, wage, birthDate;
-              System.out.println("Id: ");
-              id = s.nextLine();
-              System.out.print("\n");
+      //switch(option) {
+        //case "1":
+          //cursor.showEmployeeOptions();
+          //System.out.print("\nChoose an option: ");
+          //option = s.nextLine();
+          //System.out.print("\n");
 
-              System.out.println("Name: ");
-              name = s.nextLine();
-              System.out.print("\n");
+          //String idEmployee;
+
+          //switch (option) {
+            //case "1":
+              //String id, name, address, wage, birthDate;
+              //System.out.println("Id: ");
+              //id = s.nextLine();
+              //System.out.print("\n");
+
+              //System.out.println("Name: ");
+              //name = s.nextLine();
+              //System.out.print("\n");
               
-              System.out.println("Address: ");
-              address = s.nextLine();
-              System.out.print("\n");
+              //System.out.println("Address: ");
+              //address = s.nextLine();
+              //System.out.print("\n");
               
-              System.out.println("Wage: ");
-              wage = s.nextLine();
-              System.out.print("\n");
+              //System.out.println("Wage: ");
+              //wage = s.nextLine();
+              //System.out.print("\n");
               
-              System.out.println("Birth Date: ");
-              birthDate = s.nextLine();
-              System.out.print("\n");
+              //System.out.println("Birth Date: ");
+              //birthDate = s.nextLine();
+              //System.out.print("\n");
 
-              Employee employee = new Employee(id, name, address, wage, birthDate);
-              cursor.insertData(employee);
-              break;
-            case "2":
-            //Ajustar para retornar separadamente e não todos os dados
-              cursor.viewAll("Employee");
-              System.out.print("\n");
-              break;
-            case "3":
-              System.out.println("Type the employee id to search: ");
-              idEmployee = s.nextLine();
-              cursor.viewData(idEmployee);
-              System.out.print("\n");
-              break;
-            case "4":
-              //cursor.updateData(idEmployee);
-              break;
-            case "5":
-              System.out.println("Type the employee id: ");
-              idEmployee = s.nextLine();
-              cursor.deleteData(idEmployee);
-              System.out.print("\n");
-              break;
-            case "6":
-              break;
-            default:
-              break;
-          }
-          break;
-        case "2":
-          cursor.showVehicleOptions();
-          System.out.print("\nChoose an option: ");
-          option = s.nextLine();
+              //Employee employee = new Employee(id, name, address, wage, birthDate);
+              //cursor.insertData(employee);
+              //break;
+            //case "2":
+            ////Ajustar para retornar separadamente e não todos os dados
+              //cursor.viewAll("Employee");
+              //System.out.print("\n");
+              //break;
+            //case "3":
+              //System.out.println("Type the employee id to search: ");
+              //idEmployee = s.nextLine();
+              //cursor.viewData(idEmployee);
+              //System.out.print("\n");
+              //break;
+            //case "4":
+              ////cursor.updateData(idEmployee);
+              //break;
+            //case "5":
+              //System.out.println("Type the employee id: ");
+              //idEmployee = s.nextLine();
+              //cursor.deleteData(idEmployee);
+              //System.out.print("\n");
+              //break;
+            //case "6":
+              //break;
+            //default:
+              //break;
+          //}
+          //break;
+        //case "2":
+          //cursor.showVehicleOptions();
+          //System.out.print("\nChoose an option: ");
+          //option = s.nextLine();
           
-          switch (option) {
-            case "1":
-              String id, employeeId, description, plate, brand, model;
+          //switch (option) {
+            //case "1":
+              //String id, employeeId, description, plate, brand, model;
 
-              System.out.println("Id: ");
-              id = s.nextLine();
-              System.out.print("\n");
+              //System.out.println("Id: ");
+              //id = s.nextLine();
+              //System.out.print("\n");
 
-              System.out.println("Employee Id: ");
-              employeeId = s.nextLine();
-              System.out.print("\n");
+              //System.out.println("Employee Id: ");
+              //employeeId = s.nextLine();
+              //System.out.print("\n");
 
-              System.out.println("Description: ");
-              description = s.nextLine();
-              System.out.print("\n");
+              //System.out.println("Description: ");
+              //description = s.nextLine();
+              //System.out.print("\n");
 
-              System.out.println("Plate: ");
-              plate = s.nextLine();
-              System.out.print("\n");
+              //System.out.println("Plate: ");
+              //plate = s.nextLine();
+              //System.out.print("\n");
 
-              System.out.println("Brand: ");
-              brand = s.nextLine();
-              System.out.print("\n");
+              //System.out.println("Brand: ");
+              //brand = s.nextLine();
+              //System.out.print("\n");
 
-              System.out.println("Model: ");
-              model = s.nextLine();
-              System.out.print("\n");
+              //System.out.println("Model: ");
+              //model = s.nextLine();
+              //System.out.print("\n");
 
-              Vehicle vehicle = new Vehicle(id, employeeId, description, plate, brand, model);
-              cursor.insertData(vehicle);
+              //Vehicle vehicle = new Vehicle(id, employeeId, description, plate, brand, model);
+              //cursor.insertData(vehicle);
 
-              break;
-            case "2":
-              cursor.viewAll("Vehicle");
-              System.out.print("\n");
-              break;
-            case "3":
-            S ystem.out.println("Type the employee id to search: ");
-              idEmployee = s.nextLine();
-              cursor.viewData(idEmployee);
-              System.out.print("\n");
-              break;
-            case "4":
-              break;
-            case "5":
-              break;
-            case "6":
-              break;
-            default:
-              break;
-          }
-          break;
-        case "3":
-          return;
-        default:
-          System.out.println("Not an option");
-          break;
-      }
-    }
+              //break;
+            //case "2":
+              //cursor.viewAll("Vehicle");
+              //System.out.print("\n");
+              //break;
+            //case "3":
+            //System.out.println("Type the employee id to search: ");
+              //idEmployee = s.nextLine();
+              //cursor.viewData(idEmployee);
+              //System.out.print("\n");
+              //break;
+            //case "4":
+              //break;
+            //case "5":
+              //break;
+            //case "6":
+              //break;
+            //default:
+              //break;
+          //}
+          //break;
+        //case "3":
+          //return;
+        //default:
+          //System.out.println("Not an option");
+          //break;
+      //}
+    //}
   }
 }
 
