@@ -16,7 +16,6 @@ public interface DBInterface {
   <T extends DataCompatibility> Boolean insertData(T DataInstance) throws IOException;
   <T extends DataCompatibility> List<T> getAll() throws IOException;
 
-  Boolean viewData(String id) throws IOException;
   Boolean updateData(String id);
   Boolean deleteData(String id);
 }
