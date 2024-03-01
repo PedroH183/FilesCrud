@@ -4,11 +4,8 @@ import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
-import javax.xml.crypto.Data;
 
 import Domain.Employee;
 import Domain.Vehicle;
@@ -128,58 +125,42 @@ public class DBManager implements DBInterface {
 
     return null;
   }
-  
-  public void viewAll(String type) throws IOException {
-    //Recebe o tipo, veiculo ou funcionario
-    //percorre linha por linha o arquivo e verifica se a primeira palavra corresponde ao tipo escolhido
-    //se sim, guarda a linha em um array
-    //no final retorna um array com todas as linhas deste tipo 
+ 
+  public void viewAll(String type) {
+    switch (type) {
+      case "Employee":
+        this.getEmployeeList().forEach(e -> this.viewEmployee(e.getId()));
+        break;
 
-    // List<String> linhas = Files.readAllLines(file);
+      case "Vehicle":
+        this.getVehicleList().forEach(e -> this.viewVehicle(e.getId()));
+        break;
 
-    // for (String linha : linhas) {
-    //   String[] fields1 = linha.split(":");
-    //   ArrayList<String> fields = new ArrayList<>();
-
-    //   for (int i = 0; i < fields1.length; i++) {
-    //     fields.add(fields1[i]);
-    //   }
-
-    
-
-    // switch (fields.get(0)) {
-    //   case "Employee":
-    //     this.DATA_ALL.add(new Employee(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5)));
-    //     break;
-
-    //   case "Vehicle":
-    //     this.DATA_ALL.add(new Vehicle(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5), fields.get(6)));
-    //     break;
-
-    //   default:
-    //     break;
-    // }
-
-    List<DataCompatibility> allData = this.getAll();
-
-    allData.forEach((e) -> System.out.println(e.getRawData()));
+      default:
+        System.out.println("Not a valid option!");
+        break;
+    }
   }
 
-  @Override
-  public Boolean viewData(String id) throws IOException {
-      // TODO
-      // Usar getOneVehicle e getOneEmployee e quebrar esse metodo em dois tambem
-      // Considerar deletar esse metodo dependendo da logica final
-      List<DataCompatibility> lista = this.getAll();
+  public void viewEmployee(String id) {
+    Employee employee = (Employee) this.getOneEmployee(id);
 
-      for(int i = 0; i< lista.size(); i++) {
-        if(lista.get(i).getId().equals(id)) {
-          System.out.println(lista.get(i).getRawData());
-          return true;
-        }
-      }
+    System.out.println("id: " + employee.getId());
+    System.out.println("name: " + employee.getName());
+    System.out.println("address: " + employee.getAddress());
+    System.out.println("wage: " + employee.getWage());
+    System.out.println("birth date: " + employee.getBirthDate());
+  }
 
-      return false;
+  public void viewVehicle(String id) {
+    Vehicle vehicle = (Vehicle) this.getOneVehicle(id);
+  
+    System.out.println("id:" + vehicle.getId());
+    System.out.println("employee id:" + vehicle.getEmployeeId());
+    System.out.println("description:" + vehicle.getDescription());
+    System.out.println("plate:" + vehicle.getPlate());
+    System.out.println("brand:" + vehicle.getBrand());
+    System.out.println("model:" + vehicle.getModel());
   }
 
   @Override
