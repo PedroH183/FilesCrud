@@ -1,1 +1,3 @@
 Employee:1:Pedro Leandro:Av. 13 de Maio:R$1500.00:03/05/2003
+Employee:1:karen:rua maria josé teixeira, 770:0:14/11/2002
+Employee:4:Karen:Rua Maria José Teixeira, 770:1200:14/11/2002

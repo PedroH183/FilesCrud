@@ -113,7 +113,37 @@ public class DBManager implements DBInterface {
     return null;
   }
 
-  public void viewAll() throws IOException {
+  public void viewAll(String type) throws IOException {
+    //Recebe o tipo, veiculo ou funcionario
+    //percorre linha por linha o arquivo e verifica se a primeira palavra corresponde ao tipo escolhido
+    //se sim, guarda a linha em um array
+    //no final retorna um array com todas as linhas deste tipo 
+
+    List<String> linhas = Files.readAllLines(file);
+
+    for (String linha : linhas) {
+      String[] fields1 = linha.split(":");
+      ArrayList<String> fields = new ArrayList<>();
+
+      for (int i = 0; i < fields1.length; i++) {
+        fields.add(fields1[i]);
+      }
+-
+    
+
+    switch (fields.get(0)) {
+      case "Employee":
+        this.DATA_ALL.add(new Employee(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5)));
+        break;
+
+      case "Vehicle":
+        this.DATA_ALL.add(new Vehicle(fields.get(1), fields.get(2), fields.get(3), fields.get(4), fields.get(5), fields.get(6)));
+        break;
+
+      default:
+        break;
+    }
+
     List<DataCompatibility> allData = this.getAll();
 
     allData.forEach((e) -> System.out.println(e.getRawData()));
@@ -170,18 +200,20 @@ public class DBManager implements DBInterface {
   }
 
   public void showEmployeeOptions() {
+    System.out.println("---------- EMPLOYEES OPTIONS ----------");
     System.out.println("1 - Create Employee");
     System.out.println("2 - Read All Employees");
-    System.out.println("3 - Read One Employee");
+    System.out.println("3 - Search Employee");
     System.out.println("4 - Edit Employee");
     System.out.println("5 - Delete Employee");
     System.out.println("6 - Go back");
   }
 
   public void showVehicleOptions() {
+    System.out.println("---------- VEHICLES OPTIONS ----------");
     System.out.println("1 - Create Vehicle");
     System.out.println("2 - Read All Vehicles");
-    System.out.println("3 - Read One Vehicle");
+    System.out.println("3 - Search Vehicle");
     System.out.println("4 - Edit Vehicle");
     System.out.println("5 - Delete Vehicle");
     System.out.println("6 - Go back");
