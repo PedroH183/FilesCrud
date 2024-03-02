@@ -1,28 +1,18 @@
 package DBManager;
 
+import java.util.List;
+import java.util.HashMap;
+import java.util.Vector;
 import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
 
 import Domain.Employee;
 import Domain.Vehicle;
-import Service.DataCompatibility;
 
 
 public class DBManager implements DBInterface {
-  /**
-   * Classe que representa a interface do banco de dados,
-   * por meio desta classe será possível acessar os recursos salvos no banco de dado.
-   *
-   *  instance :: é a representação da instancia dessa classe
-   *  é por meio de instance que o usuario irá interagir com o banco.
-   *
-   *  fileInstance :: é a representação do path que contém todos os dados da aplicação.
-   */
 
   private static DBManager instance;
   private final String URL_PATH = "./Database/";
@@ -128,11 +118,11 @@ public class DBManager implements DBInterface {
   public void viewAll(String type) {
     switch (type) {
       case "Employee":
-        this.getEmployeeList().forEach(e -> this.viewEmployee(e.getId()));
+        this.getEmployeeList().forEach(e -> {this.viewEmployee(e.getId()); System.out.println();} );
         break;
 
       case "Vehicle":
-        this.getVehicleList().forEach(e -> this.viewVehicle(e.getId()));
+        this.getVehicleList().forEach(e -> {this.viewVehicle(e.getId()); System.out.println();} );
         break;
 
       default:
@@ -144,6 +134,11 @@ public class DBManager implements DBInterface {
   public void viewEmployee(String id) {
     Employee employee = (Employee) this.getOneEmployee(id);
 
+    if( employee == null ){
+      System.out.println("Employee not found !!");
+      return;
+    }
+
     System.out.println("id: " + employee.getId());
     System.out.println("name: " + employee.getName());
     System.out.println("address: " + employee.getAddress());
@@ -153,7 +148,12 @@ public class DBManager implements DBInterface {
 
   public void viewVehicle(String id) {
     Vehicle vehicle = (Vehicle) this.getOneVehicle(id);
-  
+
+    if( vehicle == null ){
+      System.out.println("Vehicle not found !!");
+      return;
+    }
+
     System.out.println("id:" + vehicle.getId());
     System.out.println("employee id:" + vehicle.getEmployeeId());
     System.out.println("description:" + vehicle.getDescription());
@@ -178,30 +178,12 @@ public class DBManager implements DBInterface {
   }
 
   @Override
-  public Boolean updateData(String id, HashMap<String, String> datamap) {
+  public void updateEmployee(String employeeId, HashMap<String, String> hashMap) {
 
-    DataCompatibility employee = this.getOneEmployee(id);
-    DataCompatibility vehicle = this.getOneVehicle(id);
+    Employee employee = (Employee) this.getOneEmployee(employeeId);
 
-    if( employee != null ){
-      this.updateEmployee( (Employee) employee, datamap);
-    }
-
-    if( vehicle != null ){
-      this.updateVehicle( (Vehicle) vehicle, datamap);
-    }
-
-    if( employee == null && vehicle == null ){
-      return false;
-    }
-
-    return true;
-  }
-
-  @Override
-  public void updateEmployee(Employee employee, HashMap<String, String> hashMap) {
     hashMap.forEach( (key, value) -> {
-      if( value.isBlank() || value.isEmpty() || value.equals("\n") ){
+      if( value.isBlank() ){
         return;
       }
       if( key.equals("name")  ){
@@ -220,12 +202,17 @@ public class DBManager implements DBInterface {
         employee.setBirthDate(value);
       }
     });
+
+    FileManager.recreateDatabase(this.getPathFile(), this.getAll());
   }
 
   @Override
-  public void updateVehicle(Vehicle vehicle, HashMap<String, String> hashMap) {
+  public void updateVehicle(String vehicleId, HashMap<String, String> hashMap) {
+
+    Vehicle vehicle = (Vehicle) this.getOneVehicle(vehicleId);
+
     hashMap.forEach( (key, value) -> {
-      if( value.isBlank() || value.isEmpty() || value.equals("\n") ){
+      if( value.isBlank() ){
         return;
       }
       if( key.equals("description")  ){
@@ -244,5 +231,7 @@ public class DBManager implements DBInterface {
         vehicle.setModel(value);
       }
     });
+
+    FileManager.recreateDatabase(this.getPathFile(), this.getAll());
   }
 }
