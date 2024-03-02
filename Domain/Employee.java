@@ -1,6 +1,8 @@
 package Domain;
 
-import Service.DataCompatibility;
+
+import DBManager.DataCompatibility;
+
 
 public class Employee extends DataCompatibility {
    private String id;
@@ -9,7 +11,8 @@ public class Employee extends DataCompatibility {
    private String wage;
    private String birthDate;
    private final String type = "Employee";
-   
+
+
    public Employee(String id, String name, String address, String wage, String birthDate) {
         this.id = id;
         this.name = name;

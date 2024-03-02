@@ -1,6 +1,7 @@
 package Domain;
 
-import Service.DataCompatibility;
+import DBManager.DataCompatibility;
+
 
 public class Vehicle extends DataCompatibility {
     private String id;
@@ -9,7 +10,7 @@ public class Vehicle extends DataCompatibility {
     private String plate;
     private String brand;
     private String model;
-    private final String type = "Vehicle";    
+    private final String type = "Vehicle";
 
     public Vehicle(String id, String employeeId, String description, String plate, String brand, String model) {
         this.id = id;

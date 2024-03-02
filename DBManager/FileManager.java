@@ -6,9 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-import Service.DataCompatibility;
 
 public class FileManager {
+
     public static Path getDatabase(String urlPath, String fileName) {
         Path directory = Path.of(urlPath);
 
