@@ -39,23 +39,20 @@ public class Menu{
 
     public HashMap<String, String> menuUpdateEmployee(Scanner sc){
         HashMap<String, String> menuData = new HashMap<>();
-        menuData.put("id", this.setScanner("Insert new Id\nEnter to skip", sc));
-        menuData.put("name", this.setScanner("Insert new Name\nEnter to skip", sc));
-        menuData.put("address", this.setScanner("Insert new Address\nEnter to skip", sc));
-        menuData.put("wage", this.setScanner("Insert new Wage\nEnter to skip", sc));
-        menuData.put("birthDate", this.setScanner("Insert new BirthDate\nEnter to skip", sc));
+        menuData.put("name", this.setScanner("Insert new Name *Enter to skip*", sc));
+        menuData.put("address", this.setScanner("Insert new Address *Enter to skip*", sc));
+        menuData.put("wage", this.setScanner("Insert new Wage *Enter to skip*", sc));
+        menuData.put("birthDate", this.setScanner("Insert new BirthDate *Enter to skip*", sc));
 
         return menuData;
     }
 
     public HashMap<String, String> menuUpdateVehicle(Scanner sc){
         HashMap<String, String> menuData = new HashMap<>();
-        menuData.put("id", this.setScanner("Insert new Id\nEnter to skip", sc));
-        menuData.put("employeeId", this.setScanner("Insert new Employee Id\nEnter to skip", sc));
-        menuData.put("description", this.setScanner("Insert new Description\nEnter to skip", sc));
-        menuData.put("plate", this.setScanner("Insert new Plate\nEnter to skip", sc));
-        menuData.put("brand", this.setScanner("Insert new Brand\nEnter to skip", sc));
-        menuData.put("model", this.setScanner("Insert new Model\nEnter to skip", sc));
+        menuData.put("description", this.setScanner("Insert new Description *Enter to skip*", sc));
+        menuData.put("plate", this.setScanner("Insert new Plate *Enter to skip*", sc));
+        menuData.put("brand", this.setScanner("Insert new Brand *Enter to skip*", sc));
+        menuData.put("model", this.setScanner("Insert new Model *Enter to skip*", sc));
 
         return menuData;
     }
