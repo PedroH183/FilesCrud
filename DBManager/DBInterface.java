@@ -1,8 +1,8 @@
 package DBManager;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
+import java.io.IOException;
 
 
 public interface DBInterface {
@@ -11,10 +11,9 @@ public interface DBInterface {
     void viewVehicle(String s);
     void deleteData(String s);
 
-    List<Service.DataCompatibility> getAll() throws IOException;
-    Boolean updateData(java.lang.String s, HashMap<String,String> hashMap);
-    void updateEmployee(Domain.Employee employee, HashMap<String,String> hashMap);
-    void updateVehicle(Domain.Vehicle vehicle, HashMap<String,String> hashMap);
+    List<DataCompatibility> getAll() throws IOException;
+    void updateEmployee(String employeeId, HashMap<String,String> hashMap);
+    void updateVehicle(String vehicleId, HashMap<String,String> hashMap);
 
-    <T extends Service.DataCompatibility> void insertData(T t) throws IOException;
+    <T extends DataCompatibility> void insertData(T t) throws IOException;
 }
