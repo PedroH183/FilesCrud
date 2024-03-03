@@ -162,21 +162,6 @@ public class DBManager implements DBInterface {
     System.out.println("model:" + vehicle.getModel());
   }
 
-
-  @Override
-  public void deleteData(String id) {
-    List<DataCompatibility> allData = new Vector<>();
-    allData = this.getAll();
-
-    for (int i = 0; i < allData.size(); i++) {
-     if(allData.get(i).getId().equals(id)) {
-      this.DATA_ALL.remove(i);
-     } 
-    }
-
-    FileManager.recreateDatabase(this.getPathFile(), this.getAll());
-  }
-
   @Override
   public void updateEmployee(String employeeId, HashMap<String, String> hashMap) {
 
@@ -234,4 +219,19 @@ public class DBManager implements DBInterface {
 
     FileManager.recreateDatabase(this.getPathFile(), this.getAll());
   }
+
+  @Override
+  public void deleteData(String id) {
+    List<DataCompatibility> allData = new Vector<>();
+    allData = this.getAll();
+
+    for (int i = 0; i < allData.size(); i++) {
+     if(allData.get(i).getId().equals(id)) {
+      this.DATA_ALL.remove(i);
+     } 
+    }
+
+    FileManager.recreateDatabase(this.getPathFile(), this.getAll());
+  }
+
 }

@@ -18,7 +18,6 @@ public class WorkWithFiles {
       Scanner s = new Scanner(System.in);
       menu.showOptions();
       String option = menu.setScanner("\nChoose an option: ", s);
-      System.out.print("\n");
 
       switch(option) {
         case "1":
@@ -41,6 +40,7 @@ public class WorkWithFiles {
               Employee employee = new Employee(id, name, address, wage, birthDate);
 
               cursor.insertData(employee);
+              System.out.print("Employee created with success!\n");
               System.out.print("\n");
 
               break;
@@ -64,14 +64,14 @@ public class WorkWithFiles {
               idEmployee = menu.setScanner("Type the employee id to edit: ", s);
 
               if(cursor.getOneEmployee(idEmployee) == null){
-                System.out.println("Employee not found !!");
+                System.out.println("Employee not found!");
                 break;
               }
 
               HashMap<String, String> menuData = menu.menuUpdateEmployee(s);
 
-              cursor.updateVehicle(idEmployee, menuData);
-              System.out.print("\n");
+              cursor.updateEmployee(idEmployee, menuData);
+              System.out.print("Employee edited with success!\n");
               break;
 
             case "5": // removing employee
@@ -79,7 +79,7 @@ public class WorkWithFiles {
               idEmployee = menu.setScanner("Type the employee id to remove: ", s);
 
               cursor.deleteData(idEmployee);
-              System.out.print("\n");
+              System.out.print("Employee removed with success!\n");
               break;
 
             case "6":
@@ -87,78 +87,82 @@ public class WorkWithFiles {
           }
           break;
         case "2":
-          menu.showVehicleOptions();
-          option = menu.setScanner("\nChoose an option: ", s);
+            menu.showVehicleOptions();
+            option = menu.setScanner("\nChoose an option: ", s);
 
-          switch (option) {
-            case "1": // creating vehicle
+            String idVehicle;
 
-              String id, employeeId, description, plate, brand, model;
+            switch (option) {
+              case "1": // creating vehicle
 
-              id = DataCompatibility.generateRandomId();
-              employeeId = menu.setScanner("Employee Id: ", s);
-              description = menu.setScanner("Description: ", s);
-              plate = menu.setScanner("Plate: ", s);
-              brand = menu.setScanner("Brand: ", s);
-              model = menu.setScanner("Model: ", s);
+                String id, employeeId, description, plate, brand, model;
 
-              Vehicle vehicle = new Vehicle(id, employeeId, description, plate, brand, model);
-              cursor.insertData(vehicle);
-              System.out.print("\n");
-              break;
+                id = DataCompatibility.generateRandomId();
+                employeeId = menu.setScanner("Employee Id: ", s);
+                description = menu.setScanner("Description: ", s);
+                plate = menu.setScanner("Plate: ", s);
+                brand = menu.setScanner("Brand: ", s);
+                model = menu.setScanner("Model: ", s);
 
-            case "2": // listing all vehicle
-
-              cursor.viewAll("Vehicle");
-              break;
-
-            case "3": // view vehicle
-
-              idEmployee = menu.setScanner("Type the vehicle id to search: ", s);
-
-              if(cursor.getOneVehicle(idEmployee) == null){
-                System.out.println("Vehicle not found !!");
+                Vehicle vehicle = new Vehicle(id, employeeId, description, plate, brand, model);
+                cursor.insertData(vehicle);
+                System.out.print("Vehicle created with success!\n");
                 break;
-              }
 
-              cursor.viewVehicle(idEmployee);
-              System.out.print("\n");
-              break;
+              case "2": // listing all vehicle
 
-            case "4": // Edit vehicle
-
-              idEmployee = menu.setScanner("Type the vehicle id to edit: ", s);
-
-              if(cursor.getOneVehicle(idEmployee) == null){
-                System.out.println("Vehicle not found !!");
+                cursor.viewAll("Vehicle");
                 break;
-              }
 
-              HashMap<String, String> menuData = menu.menuUpdateVehicle(s);
+              case "3": // view vehicle
 
-              cursor.updateVehicle(idEmployee, menuData);
-              break;
+                idVehicle = menu.setScanner("Type the vehicle id to search: ", s);
 
-            case "5": // removing vehicle
+                if(cursor.getOneVehicle(idVehicle) == null){
+                  System.out.println("Vehicle not found !!");
+                  break;
+                }
 
-              idEmployee = menu.setScanner("Type the vehicle id to remove: ", s);
-
-              if(cursor.getOneVehicle(idEmployee) == null){
-                System.out.println("Vehicle not found !!");
+                cursor.viewVehicle(idVehicle);
+                System.out.print("\n");
                 break;
-              }
 
-              cursor.deleteData(idEmployee);
-              break;
+              case "4": // Edit vehicle
 
-            case "6":
-              break;
-          }
-          break;
+                idVehicle = menu.setScanner("Type the vehicle id to edit: ", s);
+
+                if(cursor.getOneVehicle(idVehicle) == null){
+                  System.out.println("Vehicle not found !!");
+                  break;
+                }
+
+                HashMap<String, String> menuData = menu.menuUpdateVehicle(s);
+                cursor.updateVehicle(idVehicle, menuData);
+
+                System.out.print("Vehicle edited with success!\n");
+                break;
+
+              case "5": // removing vehicle
+
+                idVehicle = menu.setScanner("Type the vehicle id to remove: ", s);
+
+                if(cursor.getOneVehicle(idVehicle) == null){
+                  System.out.println("Vehicle not found!");
+                  break;
+                }
+
+                cursor.deleteData(idVehicle);
+                System.out.print("Vehicle removed with success\n!");
+                break;
+
+              case "6":
+                break;
+            }
+            break;
         case "3":
           return;
         default:
-          System.out.println("Not an option");
+          System.out.println("Not an option!");
           break;
       }
     }
